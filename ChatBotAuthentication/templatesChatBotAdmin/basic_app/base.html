@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title></title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+</head>
+
+<body>
+<nav class ="navbar navbar-default navbar navbar-static-top">
+<div class="container">
+<ul class="nav navbar-nav">
+  <li><a class="navbar-brand" href="{% url 'index' %}">ChatBot Admin</a></li>
+  <li><a class="navbar-link" href="{% url 'admin:index' %}">Admin</a></li>
+  <li><a class="navbar-link" href="{% url 'basic_app:register' %}">Register Here</a></li>
+  {% if user.is_authenticated %}
+  <li><a class="navbar-link" href="{% url 'logout' %}">Logout</a></li>
+  {% else %}
+  <li><a class="navbar-link" href="{% url 'basic_app:user_login' %}">Login</a></li>
+  {% endif %}
+</ul>  
+
+</div>
+
+</nav>
+
+{% if user.is_authenticated %}
+   
+  <h1 color="red">
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  
+  your are logged in sucessfully, you can now edit Questions</h1>
+
+ {% endif %}
+
+<div class="container">
+{% block body_block %}
+{% endblock %}
+</div>
+
+
+<!--.techfont{
+        font-family: 'Russo One',sans-serif;
+        font-size: 1.5;
+        margin-bottom: 10px
+        }
+
+.bigbrand{
+        font-size: 1.5em;
+        }
+.centerstage{
+        margin-left: auto;
+        margin-rigth: auto;
+        }
+-->
+
+
+<script>
+var index = [];
+// Array starts with 0 but the id start with 0 so push a dummy value
+index.push(0);
+// Push 1 at index 1 since one child element is already created
+index.push(1)
+
+function addkid() {
+  
+  var div = document.createElement('div');
+  var id = getID();
+  // Set this attritube id so that we can access this element using Id 
+  div.setAttribute("id","Div_"+id);
+  
+  div.innerHTML = 'Child_' + id + ': <input type="text" name="child_' + id + '"/>' + ' <input type="button" id="add_kid()_' + id + '" onclick="addkid()" value="+" />' + ' <input type="button" id="rem_kid()_' + id + '" onclick="remkid('+id+')" value="-" />';
+  // inside of passing this parameter in remkid we pass id number
+  document.getElementById('kids').appendChild(div);
+}
+   
+function remkid(id) {
+// use the id arugment to get the div element using unique id set in addkid
+  try{
+var element = document.getElementById("Div_"+id)
+element.parentNode.removeChild(element);
+    index[id] = -1;
+    //id number is = index of the array so we set to -1 to indicate its empty
+    }
+  catch(err){
+    alert("id: Div_"+id)
+    alert(err)
+    
+    }
+}  
+ function getID(){
+   var emptyIndex = index.indexOf(-1);
+   if (emptyIndex != -1){
+     index[emptyIndex] = emptyIndex
+     
+     return emptyIndex
+   } else {
+   emptyIndex = index.length
+   index.push(emptyIndex)
+   return emptyIndex
+     }
+   }
+</script>
+
+</body>
+
+</html>

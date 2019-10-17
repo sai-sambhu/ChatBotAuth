@@ -1,0 +1,142 @@
+{% extends "basic_app/base.html" %}
+{% block body_block %}
+
+<div class="jumbotron">
+   {% if user.is_authenticated %}
+   <h2>Enter answers for multiple choice else leave it blank</h2>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
+</script>
+<form method= "Post"  class="form-horizontal" >
+{% csrf_token %}
+    <input type="hidden" id="counts" name="count"  class="form-control">
+    
+    <div class="control-group">
+	<button style="margin-left: 0px" class="btn btn-info"  id="appendQ" name="append">
+                Add Question</button>
+				
+				
+        <div class="inc">
+            <div class="controls1">
+                <input id="questions1" type="text" class="form-control" name="question1" placeholder="Question"/> 
+				<div id="answer1div">
+                <input id="answers1" type="text" class="form-control" name="answer1" placeholder="Answer"/>
+				</div>
+				<button style="margin-left: 0px" class="add_ans btn btn-primary"  id="appendsA1" name="appendA1">
+                Add Answer</button>
+                <br>
+                <br>
+            </div>
+        </div>
+        
+		
+        
+    </div>
+	<input id="submit" type="submit" class="btn btn-info" value="submit"/> 
+				
+</form>
+</div>
+
+<script>
+var q=1;
+  
+jQuery(document).ready( function () {
+
+        $("#retrive").click( function(e) {
+          e.preventDefault();
+		
+        var j=QuestionsList[0]
+		alert(j);
+		q++;  
+        $(".inc").append('<div class="controls'+q+'">\
+                <input class="form-control" type="text" name="question'+q+'" id="questions'+q+'" placeholder="Question">\
+				<div id="answer'+q+'div">\
+                <input class="form-control" type="text" name="answer'+q+'"  id="answers'+q+'" placeholder="Answer">\
+                </div>\
+				<button style="margin-left: 0px" class="add_ans btn btn-info"  id="appendsA'+q+'" name="appendA'+q+'">\
+                Add Answer</button>\
+				<a href="#" class="remove_full btn btn-danger">remove</a>\
+                <br>\
+                <br>\
+            </div>');
+			
+        return false;
+        });
+
+
+        $("#appendQ").click( function(e) {
+          e.preventDefault();
+		  $('html, body').animate({scrollTop:$(document).height()}, 'slow');
+		  
+		q++;  
+        $(".inc").append('<div class="controls'+q+'">\
+                <input class="form-control" type="text" name="question'+q+'" id="questions'+q+'" placeholder="Question">\
+				<div id="answer'+q+'div">\
+                <input class="form-control" type="text" name="answer'+q+'"  id="answers'+q+'" placeholder="Answer">\
+                </div>\
+				<button style="margin-left: 0px" class="add_ans btn btn-info"  id="appendsA'+q+'" name="appendA'+q+'">\
+                Add Answer</button>\
+				<a href="#" class="remove_full btn btn-danger">remove</a>\
+                <br>\
+                <br>\
+            </div>');
+			
+        return false;
+        });
+   
+   
+		
+    jQuery(document).on('click', '.remove_full', function() {
+        jQuery(this).parent().remove();
+        return false;
+        });
+
+jQuery(document).on('click', '.add_ans', function(e) {
+        var ch=e.target.id;
+		ch=ch[ch.length-1];
+		
+        $("#answer"+ch+"div").append('<div><input id="answers'+ch +'" type="text" class="form-control" name="answer'+ch+'" placeholder="Add Answer"/>\
+<button class="remove_div" style="font-size:10px"><i class="fa fa-close"></i></button></div>');
+        return false;
+        });		
+ jQuery(document).on('click', '.remove_div', function() {
+        jQuery(this).parent().remove();
+        return false;
+        });	
+
+
+		
+		
+
+$("input[type=submit]").click(function(e) {
+      $("#counts").val(q);
+	  for(var i=1;i<=q;i++)
+	  {
+	  var user_email = $("#questions"+i).val()
+	  if(user_email=="")
+	  {
+	  e.preventDefault();
+      alert("Please fill all question");
+	  break;
+	  }
+	  }
+	  
+    })
+  });
+</script>
+
+
+  {% else %}
+<div class="jumbotron">
+
+  <h1 color="red">
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  
+  Pleas Login to edit Questions</h1>
+   {% endif %}
+</div>
+
+{% endblock %}
+
+
+
+
